@@ -28,7 +28,6 @@ from lgtm_ai.validators import (
     IntOrNoLimitType,
     ModelChoice,
     parse_pr_url,
-    validate_model_url,
 )
 from rich.console import Console
 from rich.logging import RichHandler
@@ -37,7 +36,6 @@ __version__ = version("lgtm-ai")
 
 logging.basicConfig(
     format="%(message)s",
-    datefmt="[%X]",
     handlers=[RichHandler(rich_tracebacks=True, show_path=False, console=Console(stderr=True))],
 )
 logger = logging.getLogger("lgtm")
@@ -272,8 +270,6 @@ def _set_logging_level(logger: logging.Logger, verbose: int) -> None:
 
 def _get_formatter_and_printer(output_format: OutputFormat) -> tuple[Formatter[Any], Callable[[Any], None]]:
     """Get the formatter and the print method based on the output format."""
-    if output_format == OutputFormat.pretty:
-        return PrettyFormatter(), rich.print
     elif output_format == OutputFormat.markdown:
         return MarkDownFormatter(), print
     elif output_format == OutputFormat.json:
